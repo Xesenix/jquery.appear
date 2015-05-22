@@ -27,16 +27,20 @@
       var $appeared = $(selectors[index]).filter(function() {
         return $(this).is(':appeared');
       });
-
-      $appeared.trigger('appear', [$appeared]);
-
-      if ($prior_appeared[index]) {
-        var $disappeared = $prior_appeared[index].not($appeared);
-        $disappeared.trigger('disappear', [$disappeared]);
+      
+      if (typeof $prior_appeared[index] == 'undefined')
+      {
+        $prior_appeared[index] = $([]);
       }
+
+      var $new_appeared = $appeared.not($prior_appeared[index]);
+      $new_appeared.trigger('appear', [$new_appeared]);
+
+      var $disappeared = $prior_appeared[index].not($appeared);
+      $disappeared.trigger('disappear', [$disappeared]);
+      
       $prior_appeared[index] = $appeared;
     }
-  }
 
   // "appeared" custom filter
   $.expr[':']['appeared'] = function(element) {
