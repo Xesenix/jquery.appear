@@ -6,7 +6,7 @@
  *
  * https://github.com/morr/jquery.appear/
  *
- * Version: 0.3.4
+ * Version: 0.3.5
  */
 (function($) {
   var selectors = [];
@@ -19,7 +19,7 @@
   }
   var $window = $(window);
 
-  var $prior_appeared;
+  var $prior_appeared = [];
 
   function process() {
     check_lock = false;
@@ -30,11 +30,11 @@
 
       $appeared.trigger('appear', [$appeared]);
 
-      if ($prior_appeared) {
-        var $disappeared = $prior_appeared.not($appeared);
+      if ($prior_appeared[index]) {
+        var $disappeared = $prior_appeared[index].not($appeared);
         $disappeared.trigger('disappear', [$disappeared]);
       }
-      $prior_appeared = $appeared;
+      $prior_appeared[index] = $appeared;
     }
   }
 
